@@ -191,6 +191,13 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aut
         //删除
         Route::delete('member/destroy', 'MemberController@destroy')->name('admin.member.destroy')->middleware('permission:member.member.destroy');
     });
+    //工资管理
+    Route::group(['middleware' => 'permission:wages.template'],function(){
+        Route::get('wages/template','MemberController@wagesTemplate')->name('admin.wages.template');
+        //添加
+        Route::get('wages/create','MemberController@templateCreate')->name('admin.wages.create');
+        Route::post('wages/add_template','MemberController@addTemplate')->name('admin.wages.add_template');
+    });
 });
 //消息管理
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth', 'permission:message.manage']], function () {

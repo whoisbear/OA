@@ -112,4 +112,15 @@ class MemberController extends Controller
         }
         return response()->json(['code'=>1,'msg'=>'删除失败']);
     }
+
+    public function wagesTemplate(){
+        return view('admin.member.wages.template');
+    }
+    public function templateCreate(Request $request){
+        $data = $request->all();
+        return view('admin.member.wages.create');
+    }
+    public function addTemplate(){
+
+    }
 }
