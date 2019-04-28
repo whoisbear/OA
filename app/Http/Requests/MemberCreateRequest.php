@@ -25,7 +25,7 @@ class MemberCreateRequest extends FormRequest
     {
         return [
             'phone'   => 'required|numeric|regex:/^1[3456789][0-9]{9}$/|unique:members',
-            'name'  => 'required|min:4|unique:members',
+            'name'  => 'required|min:2|max:20',
             'password'  => 'required|confirmed|min:6|max:14'
         ];
     }

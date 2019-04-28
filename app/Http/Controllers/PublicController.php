@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 
 use App\Traits\Msg;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use zgldh\QiniuStorage\QiniuStorage;
 
 class PublicController extends Controller
@@ -37,15 +39,16 @@ class PublicController extends Controller
             $data['msg'] = $file->getErrorMessage();
             return response()->json($data);
         }
-        $newFile = date('Y-m-d')."_".time()."_".uniqid().".".$file->getClientOriginalExtension();
-        $disk = QiniuStorage::disk('qiniu');
+        $newFile = date('Y-m-d')."/".time()."_".uniqid().".".$file->getClientOriginalExtension();
+        //Log::info('file:'.$newFile);
+        $disk = Storage::disk('local');
         $res = $disk->put($newFile,file_get_contents($file->getRealPath()));
         if($res){
             $data = [
                 'code'  => 0,
                 'msg'   => '上传成功',
-                'data'  => $newFile,
-                'url'   => $disk->downloadUrl($newFile)
+                'data'  => '/storage/images/members/'.$newFile,
+                'url'   => '/storage/images/members/'.$newFile
             ];
         }else{
             $data['data'] = $file->getErrorMessage();

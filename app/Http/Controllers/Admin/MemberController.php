@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\MemberCreateRequest;
 use App\Http\Requests\MemberUpdateRequest;
 use App\Models\Member;
+use App\Models\Station;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -28,7 +29,7 @@ class MemberController extends Controller
         if ($request->get('phone')){
             $model = $model->where('phone','like','%'.$request->get('phone').'%');
         }
-        $res = $model->orderBy('created_at','desc')->paginate($request->get('limit',30))->toArray();
+        $res = $model->orderBy('created_at','desc')->with('station')->paginate($request->get('limit',30))->toArray();
         $data = [
             'code' => 0,
             'msg'   => '正在请求中...',
@@ -44,7 +45,8 @@ class MemberController extends Controller
      */
     public function create()
     {
-        return view('admin.member.create');
+        $station = Station::where('pid','<>',0)->get();
+        return view('admin.member.create',compact(['station']));
     }
     /**
      * Store a newly created resource in storage.
@@ -58,7 +60,7 @@ class MemberController extends Controller
         $data['password'] = bcrypt($data['password']);
         $data['uuid'] = \Faker\Provider\Uuid::uuid();
         if (Member::create($data)){
-            return redirect()->to(route('admin.member'))->with(['status'=>'添加账号成功']);
+            return redirect()->to(route('admin.member'))->with(['status'=>'添加成功']);
         }
         return redirect()->to(route('admin.member'))->withErrors('系统错误');
     }
@@ -70,8 +72,9 @@ class MemberController extends Controller
      */
     public function edit($id)
     {
+        $station = Station::where('pid','<>',0)->get();
         $member = Member::findOrFail($id);
-        return view('admin.member.edit',compact('member'));
+        return view('admin.member.edit',compact(['member','station']));
     }
     /**
      * Update the specified resource in storage.

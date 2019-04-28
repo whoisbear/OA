@@ -45,7 +45,7 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root' => storage_path('app'),
+            'root' => storage_path(config('admin.upload_img_path')),
         ],
 
         'public' => [

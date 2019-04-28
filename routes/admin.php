@@ -176,9 +176,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['aut
         Route::delete('advert/destroy', 'AdvertController@destroy')->name('admin.advert.destroy')->middleware('permission:config.advert.destroy');
     });
 });
-//会员管理
+//职工管理
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth', 'permission:member.manage']], function () {
-    //账号管理
+    //职工管理
     Route::group(['middleware' => 'permission:member.member'], function () {
         Route::get('member/data', 'MemberController@data')->name('admin.member.data');
         Route::get('member', 'MemberController@index')->name('admin.member');

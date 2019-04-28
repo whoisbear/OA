@@ -36,6 +36,12 @@
             <script type="text/html" id="avatar">
                 <a href="@{{d.avatar}}" target="_blank" title="点击查看"><img src="@{{d.avatar}}" alt="" width="28" height="28"></a>
             </script>
+            <script type="text/html" id="station">
+                @{{d.station.name}}
+            </script>
+            <script type="text/html" id="status">
+                @{{d.status == 0 ? '实习员工' : '正式员工'}}
+            </script>
         </div>
     </div>
 @endsection
@@ -56,12 +62,13 @@
                     ,page: true //开启分页
                     ,cols: [[ //表头
                         {checkbox: true,fixed: true}
-                        ,{field: 'id', title: 'ID', sort: true,width:80}
-                        ,{field: 'name', title: '昵称'}
+                        ,{field: 'id', title: '工号', sort: true,width:80}
+                        ,{field: 'name', title: '姓名'}
                         ,{field: 'phone', title: '手机'}
+                        ,{field: 'status', title: '状态',toolbar:'#status'}
                         ,{field: 'avatar', title: '头像',toolbar:'#avatar',width:100}
-                        ,{field: 'created_at', title: '创建时间'}
-                        ,{field: 'updated_at', title: '更新时间'}
+                        ,{field: 'station', title: '职位',toolbar:'#station'}
+                        ,{field: 'created_at', title: '入职时间'}
                         ,{fixed: 'right', width: 120, align:'center', toolbar: '#options'}
                     ]]
                 });
